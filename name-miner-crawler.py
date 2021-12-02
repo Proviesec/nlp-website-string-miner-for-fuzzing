@@ -1,4 +1,5 @@
 import requests
+import sys
 from bs4 import BeautifulSoup
 
 def crawl_miner(url,output,deep):
@@ -25,7 +26,7 @@ def crawl_miner(url,output,deep):
                 crawl_miner(links['href'],output,deep)
 
 output = set()
-url = 'https://github.com'
+url = sys.argv[1]
 deep = 2
 crawl = crawl_miner(url,output,deep)
 
