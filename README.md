@@ -16,11 +16,10 @@ You can install dir-name-parameter-miner by using
 
 Tutorials
 ---------
-
+Example:
+py -3 .\dir-name-crawler.py http://github.com
 
 Documentation
 -------------
 
-url = 'https://github.com'
-deep = 2
-crawl = crawl_miner(url,output,deep)
+
