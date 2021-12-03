@@ -1,11 +1,25 @@
 import requests
 import sys
+import re
+from textblob import TextBlob
 from bs4 import BeautifulSoup
 
-def crawl_miner(url,output,deep):
-        
-    r = requests.get(url)
+headers = {
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
 
+regex = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+def crawl_miner(url,output,deep):
+    try:
+        r = requests.get(url, headers=headers)
+    except requests.exceptions.ConnectionError:
+        return
     if r.status_code == 200:
         soup = BeautifulSoup(r.content, "html.parser")
 
@@ -21,13 +35,19 @@ def crawl_miner(url,output,deep):
         
         for links in soup.find_all(href=True):
             #print(links['href'])
-            if deep>0:
+            if deep>0 and re.match(regex, links['href']) is not None == True:
                 deep = deep - 1
                 crawl_miner(links['href'],output,deep)
 
+
 output = set()
 url = sys.argv[1]
-deep = 2
+deep = 4
 crawl = crawl_miner(url,output,deep)
-
-print(output)
+words = set()
+for txt in output:
+    blob = TextBlob(txt)
+    for word,pos in blob.tags:
+        if  re.sub(r'[\W]', '', word) and (pos == 'NN' or pos == 'NNS'): 
+            words.add(word.lower())
+print(words)
