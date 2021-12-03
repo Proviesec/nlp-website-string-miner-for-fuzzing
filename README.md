@@ -1,4 +1,4 @@
-# Dir-Name-Parameter-Miner
+# NLP Website string miner for fuzzing
 
 Find all keywords for your subdomain or folder search - for FUZZ (Bug Bounty)
 
