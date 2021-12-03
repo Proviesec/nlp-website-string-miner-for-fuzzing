@@ -11,7 +11,10 @@ Find all keywords for your subdomain or folder search - for FUZZ (Bug Bounty)
 Installation
 ------------
 
-You can install dir-name-parameter-miner by using
+git clone https://github.com/Proviesec/nlp-website-string-miner-for-fuzzing.git
+cd nlp-website-string-miner-for-fuzzing
+pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 
 Tutorials
