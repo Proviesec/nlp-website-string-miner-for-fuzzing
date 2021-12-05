@@ -21,6 +21,8 @@ Tutorials
 Example:
 py -3 .\dir-name-crawler.py http://github.com
 
+Output:
+
 Documentation
 -------------
 
