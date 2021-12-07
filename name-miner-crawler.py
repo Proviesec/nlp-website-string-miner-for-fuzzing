@@ -22,16 +22,7 @@ def crawl_miner(url,output,deep):
         return
     if r.status_code == 200:
         soup = BeautifulSoup(r.content, "html.parser")
-
-        for headline in soup.find_all("h1"):
-            for item in headline.text.strip().split():
-                output.add(item)
-        for headline2 in soup.find_all("h2"):
-            for item in headline2.text.strip().split():
-                output.add(item)
-        title = soup.find("meta",property="of:title")
-        if title:
-            output.add(title)
+        extract_text(output,soup)
         
         for links in soup.find_all(href=True):
             #print(links['href'])
@@ -39,10 +30,21 @@ def crawl_miner(url,output,deep):
                 deep = deep - 1
                 crawl_miner(links['href'],output,deep)
 
+def extract_text(output,soup):
+    for headline in soup.find_all("h1"):
+        for item in headline.text.strip().split():
+            output.add(item)
+    for headline2 in soup.find_all("h2"):
+        for item in headline2.text.strip().split():
+            output.add(item)
+    title = soup.find("meta",property="of:title")
+    if title:
+        output.add(title)
+
 
 output = set()
 url = sys.argv[1]
-deep = 4
+deep = 4 # sys.argv[2]
 crawl = crawl_miner(url,output,deep)
 words = set()
 for txt in output:
