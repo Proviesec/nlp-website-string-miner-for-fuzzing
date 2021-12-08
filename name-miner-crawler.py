@@ -15,41 +15,47 @@ regex = re.compile(
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-def crawl_miner(url,output,deep):
+def crawl_miner(url,output,deep,range):
     try:
         r = requests.get(url, headers=headers)
     except requests.exceptions.ConnectionError:
         return
     if r.status_code == 200:
         soup = BeautifulSoup(r.content, "html.parser")
-        extract_text(output,soup)
+        extract_text(output,soup,range)
         
         for links in soup.find_all(href=True):
             #print(links['href'])
             if deep>0 and re.match(regex, links['href']) is not None == True:
                 deep = deep - 1
-                crawl_miner(links['href'],output,deep)
+                crawl_miner(links['href'],output,deep,range)
 
-def extract_text(output,soup):
+def extract_text(output,soup,range):
     for headline in soup.find_all("h1"):
         for item in headline.text.strip().split():
             output.add(item)
     for headline2 in soup.find_all("h2"):
         for item in headline2.text.strip().split():
             output.add(item)
-    title = soup.find("meta",property="of:title")
-    if title:
-        output.add(title)
-
+    if range > 1 : 
+        title = soup.find("meta",property="of:title")
+        if title:
+            output.add(title)
+    if range > 2:
+        for ptag in soup.find_all("p"):
+            for item in ptag.text.strip().split():
+                output.add(item)
 
 output = set()
 url = sys.argv[1]
-deep = 4 # sys.argv[2]
-crawl = crawl_miner(url,output,deep)
+deep = 1 # sys.argv[2]
+range = 3 # sys.argv[3]
+crawl = crawl_miner(url,output,deep,range)
 words = set()
 for txt in output:
     blob = TextBlob(txt)
     for word,pos in blob.tags:
-        if  re.sub(r'[\W]', '', word) and (pos == 'NN' or pos == 'NNS'): 
-            words.add(word.lower())
+        test = re.sub(r'[^a-zA-Z0-9_]', '', word)
+        if  test and pos == 'NN' or pos == 'NNS': 
+            words.add(test.lower())
 print(words)
