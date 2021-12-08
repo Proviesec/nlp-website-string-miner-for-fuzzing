@@ -27,6 +27,6 @@ Output:
 Documentation
 -------------
 
-Deep:
+- Deep: says how many levels (links) should be followed. Deep 2 says: all links from the first page and all links present on the next pages are viewed.
 
 https://textblob.readthedocs.io/en/dev/install.html
