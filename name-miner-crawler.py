@@ -45,6 +45,12 @@ def extract_text(output,soup,range):
         for ptag in soup.find_all("p"):
             for item in ptag.text.strip().split():
                 output.add(item)
+        for spantag in soup.find_all("span"):
+            for item in spantag.text.strip().split():
+                output.add(item)
+        for litag in soup.find_all("li"):
+            for item in litag.text.strip().split():
+                output.add(item)
 
 output = set()
 url = sys.argv[1]
