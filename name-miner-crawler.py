@@ -4,8 +4,7 @@ import re
 from textblob import TextBlob
 from bs4 import BeautifulSoup
 
-headers = {
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
+headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
 
 regex = re.compile(
         r'^(?:http|ftp)s?://' # http:// or https://
@@ -64,4 +63,5 @@ for txt in output:
         test = re.sub(r'[^a-zA-Z0-9_]', '', word)
         if  test and pos == 'NN' or pos == 'NNS': 
             words.add(test.lower())
+            
 print(words)
