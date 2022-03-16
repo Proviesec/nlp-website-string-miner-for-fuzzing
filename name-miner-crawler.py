@@ -53,6 +53,8 @@ def extract_text(output,soup,range):
 
 output = set()
 url = sys.argv[1]
+if url.startswith("http") == False:
+    url = "https://"+url
 deep = 1 # sys.argv[2]
 range = 3 # sys.argv[3]
 crawl = crawl_miner(url,output,deep,range)
