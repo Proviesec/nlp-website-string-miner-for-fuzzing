@@ -18,6 +18,7 @@ Installation
 1. git clone https://github.com/Proviesec/nlp-website-string-miner-for-fuzzing.git
 2. cd nlp-website-string-miner-for-fuzzing
 3. pip install -r requirements.txt or pip3 install -r requirements.txt
+4. python -m textblob.download_corpora
 
 
 Documentation / Tutorials
