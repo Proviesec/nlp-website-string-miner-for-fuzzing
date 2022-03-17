@@ -55,9 +55,9 @@ output = set()
 url = sys.argv[1]
 if url.startswith("http") == False:
     url = "https://"+url
-deep = 1 # sys.argv[2]
-range = 3 # sys.argv[3]
-export = 0 # sys.argv[4]
+deep = int(sys.argv[2]) # 1
+range = int(sys.argv[3]) # 3
+export = int(sys.argv[4]) # 0
 crawl = crawl_miner(url,output,deep,range)
 words = set()
 for txt in output:
@@ -66,9 +66,9 @@ for txt in output:
         test = re.sub(r'[^a-zA-Z0-9_]', '', word)
         if  test and pos == 'NN' or pos == 'NNS': 
             words.add(test.lower())
- 
+
 if export:
     with open('name-miner-export.txt', 'w') as f:
-        f.write(words)
+        f.write(str(words))
             
 print(words)
