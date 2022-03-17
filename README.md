@@ -25,13 +25,12 @@ Installation
 
 Documentation / Tutorials
 -------------
-
+- py .\name-miner-crawler.py url deep range export?
+- py .\name-miner-crawler.py https://google.com 1 3 1
 - Deep: says how many levels (links) should be followed. Deep 2 says: all links from the first page and all links present on the next pages are viewed.
 - ![image](https://user-images.githubusercontent.com/6010786/145686516-11770d5b-a21e-4427-99d8-d1a0ba2c5991.png)
 
 # Example:
-py .\name-miner-crawler.py url deep range export?
-py .\name-miner-crawler.py https://google.com 1 3 1
 
 Screen:
 
