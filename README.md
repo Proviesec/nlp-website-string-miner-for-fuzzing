@@ -9,7 +9,7 @@ Find all keywords for your subdomain or folder search with website scrapping and
 
 ## Todos
 
-- [ ] txt export
+- [x] txt export
 - [ ] parameter export
 - [x] words export
 
