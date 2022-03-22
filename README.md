@@ -13,7 +13,6 @@ Find all keywords for your subdomain or folder search with website scrapping and
 - [ ] parameter export
 - [x] words export
 
-
 Installation
 ------------
 
