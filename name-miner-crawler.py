@@ -1,6 +1,7 @@
 import requests
 import sys
 import re
+import urllib.parse
 from textblob import TextBlob
 from bs4 import BeautifulSoup
 
@@ -14,20 +15,28 @@ regex = re.compile(
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-def crawl_miner(url,output,deep,range):
+# Find and Extract all url parameter from a big text
+def extract_url(text):
+    key_list = set()
+    text = text.decode('utf-8')
+    urls_extract = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', text)
+    for url in urls_extract:
+        params = re.findall(r'([^=&]+)=([^=&]+)', url)
+        res = dict()
+        for key, val in params:
+            key_list.add(val)
+    return key_list
+      
+
+def crawl_miner(url):
     try:
         r = requests.get(url, headers=headers)
     except requests.exceptions.ConnectionError:
         return
     if r.status_code == 200:
-        soup = BeautifulSoup(r.content, "html.parser")
-        extract_text(output,soup,range)
-        
-        for links in soup.find_all(href=True):
-            #print(links['href'])
-            if deep>0 and re.match(regex, links['href']) is not None == True:
-                deep = deep - 1
-                crawl_miner(links['href'],output,deep,range)
+        return r.content
+    else:
+        return
 
 def extract_text(output,soup,range):
     for headline in soup.find_all("h1"):
@@ -58,8 +67,21 @@ if url.startswith("http") == False:
 deep = int(sys.argv[2]) # 1
 range = int(sys.argv[3]) # 3
 export = int(sys.argv[4]) # 0
-crawl = crawl_miner(url,output,deep,range)
+crawl = crawl_miner(url)
+if crawl:
+    soup = BeautifulSoup(crawl, 'html.parser')
+    extract_text(output,soup,range)
+    if export == 1:
+        for item in output:
+            print(item)
+    else:
+        print(len(output))
 words = set()
+
+txt_return = extract_url(crawl)
+for txt_url in txt_return:
+    words.add(txt_url)
+
 for txt in output:
     blob = TextBlob(txt)
     for word,pos in blob.tags:
