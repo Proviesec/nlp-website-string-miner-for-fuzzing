@@ -10,8 +10,9 @@ Find all keywords for your subdomain or folder search with website scrapping and
 ## Todos
 
 - [x] txt export
-- [ ] parameter export
+- [x] parameter export
 - [x] words export
+- [ ] Only Parameters or only Words
 
 Installation
 ------------
