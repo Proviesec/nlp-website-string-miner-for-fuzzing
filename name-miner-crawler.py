@@ -1,7 +1,6 @@
 import requests
 import sys
 import re
-import urllib.parse
 from textblob import TextBlob
 from bs4 import BeautifulSoup
 
